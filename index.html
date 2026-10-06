@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Órbita · Reporte pedagógico Aula Máxima Lenguaje</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head><body>
+<main class="wrap">
+<section class="panel">
+<div class="bar">
+<div class="pk" id="pk">
+<small id="pkl">Estudiante</small>
+<div class="cb">
+<span class="av sm" id="pav" aria-hidden="true"></span>
+<input id="pi" type="text" role="combobox" aria-labelledby="pkl" aria-controls="pl" aria-expanded="false" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Todo el grupo · buscar…">
+<button id="px" class="ib" type="button" aria-label="Quitar estudiante y ver todo el grupo" hidden>✕</button>
+<div class="pp" id="pp" hidden>
+<div class="ph"><small>Ordenar</small><button type="button" class="chip" data-o="az">A–Z</button><button type="button" class="chip" data-o="low">Menor acierto</button></div>
+<ul id="pl" role="listbox" aria-label="Estudiantes"></ul>
+</div>
+</div>
+<button id="pv" class="ib nv" type="button" aria-label="Estudiante anterior">‹</button><button id="pn" class="ib nv" type="button" aria-label="Estudiante siguiente">›</button>
+</div>
+<span class="sep" aria-hidden="true"></span>
+<div class="fe"><small>EBC</small><span id="fe"></span></div>
+</div>
+<div class="ctx" id="ctx" hidden></div>
+<div class="g">
+<div class="c4 stack" id="kpi"></div>
+<article class="card c8"><h3>Resumen</h3><button class="inf" aria-label="Qué es el Resumen">i<span class="tip" role="tooltip">DBA, estándares y competencias con menos del 60% de acierto en toda la evaluación, para el grupo o para el estudiante seleccionado, y un plan de sesiones sugeridas para reforzarlos. Cada fila se despliega para ver el detalle.</span></button><div class="al" id="al"></div></article>
+<article class="card c7"><h3>Acierto por DBA</h3><button class="inf" aria-label="Qué es Acierto por DBA">i<span class="tip" role="tooltip">DBA ordenados del menor al mayor acierto. Se marcan con «Reforzar» los que tienen menos de 60%.</span></button><div class="sc" id="dba"></div></article>
+<div class="c5 stack">
+<article class="card"><h3>Acierto por EBC</h3><button class="inf" aria-label="Qué es Acierto por EBC">i<span class="tip" role="tooltip">Porcentaje de acierto en cada estándar (del grupo o del estudiante seleccionado). La línea marca la meta del 70%.</span></button><div id="ebc"></div></article>
+<article class="card"><h3>Acierto por competencia</h3><button class="inf" aria-label="Qué es Acierto por competencia">i<span class="tip" role="tooltip">Porcentaje de acierto en cada competencia (del grupo o del estudiante seleccionado). La línea marca la meta del 70%.</span></button><div id="cmp"></div></article>
+</div>
+</div></section>
+<p class="sub" style="margin-top:18px">Datos de ejemplo para ilustrar el diseño del reporte.</p>
+</main>
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/alerts.js"></script>
+<script src="js/picker.js"></script>
+<script src="js/dashboard.js"></script>
+</body></html>
