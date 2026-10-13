@@ -8,7 +8,7 @@ const QS = () => fa < 0 ? Q : Q.map(q => {
 	const c = AL[fa].s[q.id - 1];
 	return { ...q, p: c == "1" ? 100 : 0, o: c == "-" ? 100 : 0 };
 });
-// Lo que se dibuja en KPIs y gráficas además respeta el filtro de EBC.
+// Lo que se dibuja en KPIs y gráficas además respeta el filtro de Factor.
 const F = () => QS().filter(q => fe < 0 || q.e == fe);
 const FG = () => Q.filter(q => fe < 0 || q.e == fe);
 
@@ -21,7 +21,7 @@ const vs = (p, g) => `${p}%${fa < 0 || isNaN(g) ? "" : `<small>Grupo ${g}%</smal
 // Fila de barra con línea de meta.
 const bar = (n, p, g) => `<div class="row"><span>${n}</span><div class="tr"><i style="width:${p}%"></i><u style="left:${META}%"></u></div><b>${vs(p, g)}</b></div>`;
 // Etiqueta "Reforzar"; no se muestra nada si el acierto alcanza el umbral.
-const tag = p => est(p) ? "" : `<span class="st">Reforzar</span>`;
+const tag = p => est(p) ? "" : ``;
 const pm = (a, k = "p") => r(avg(a.map(q => q[k])));
 
 function render() {
@@ -31,7 +31,7 @@ function render() {
 	// Franja de contexto: deja claro que toda la página habla de un estudiante.
 	$("ctx").hidden = !s;
 	if (s) $("ctx").innerHTML = `<span class="av lg">${ini(s.n)}</span><div class="who"><small>Resultados de</small><b>${esc(s.n)}</b></div>`
-		+ `<span class="meta">${s.k} de ${s.s.length} correctas ${tag(s.p)}</span><button class="back" onclick="pick(-1)">Ver todo el grupo</button>`;
+		;
 
 	resumen(QS());
 
@@ -42,15 +42,15 @@ function render() {
 
 	const ag = pm(f), ok = f.filter(q => q.p == 100).length, om = f.filter(q => q.o == 100).length;
 	const K = s ? [
-		[ICONS.chart, "Acierto del estudiante", ag + "%", `${ok} de ${f.length} correctas · grupo ${pm(g)}%`, "Porcentaje de preguntas que el estudiante respondió bien, según el filtro aplicado."],
-		[ICONS.inbox, "Preguntas en blanco", pm(f, "o") + "%", `${om} de ${f.length} sin responder · grupo ${pm(g, "o")}%`, "Porcentaje de preguntas que el estudiante dejó sin responder."]
+		[ICONS.chart, "Porcentaje de respuestas correctas", ag + "%", `${ok} de ${f.length} correctas`, "Porcentaje de preguntas que el estudiante respondió bien."],
+		[ICONS.inbox, "Preguntas sin contestar", pm(f, "o") + "%", `${om} de ${f.length} sin responder`, "Porcentaje de preguntas que el estudiante dejó sin responder."]
 	] : [
-		[ICONS.chart, "Acierto global", ag + "%", `${f.length} preguntas · meta ${META}%`, "Porcentaje promedio de respuestas correctas del grupo en la evaluación, según el filtro aplicado."],
+		[ICONS.chart, "Acierto global", ag + "%", `${f.length} preguntas · meta ${META}%`, "Porcentaje promedio de respuestas correctas del grupo en la evaluación."],
 		[ICONS.inbox, "Omisión media", pm(f, "o") + "%", "Preguntas dejadas en blanco", "Porcentaje promedio de preguntas que el grupo dejó sin responder."]
 	];
 	$("kpi").innerHTML = K.map((k, i) => `<div class="k"><span class="ico">${k[0]}</span><span>${k[1]}</span><b>${k[2]}</b><em>${k[3]}</em>${i ? "" : `<div class="tr km"><i style="width:${ag}%"></i><u style="left:${META}%"></u></div>`}<button class="inf" aria-label="Qué es ${k[1]}">i<span class="tip" role="tooltip">${k[4]}</span></button></div>`).join("");
 
-	$("ebc").innerHTML = E.map((n, i) => {
+	$("Factor").innerHTML = E.map((n, i) => {
 		const p = pm(f.filter(q => q.e == i));
 		return isNaN(p) ? "" : bar(n, p, pm(g.filter(q => q.e == i)));
 	}).join("");

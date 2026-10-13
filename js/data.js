@@ -1,5 +1,5 @@
 // Datos simulados de una evaluación de 20 preguntas aplicada a un grupo de
-// 30 estudiantes. Cada pregunta está asociada a un EBC, una competencia y un DBA.
+// 30 estudiantes. Cada pregunta está asociada a un Factor, una competencia y un DBA.
 
 const E = ["Producción textual", "Comprensión e interpretación textual", "Literatura", "Medios y sistemas simbólicos"];
 const S = ["Producción", "Comprensión", "Literatura", "Medios"];
@@ -14,8 +14,8 @@ const DB = {
 	5: "Interpreta la información de los medios de comunicación y de los sistemas no verbales."
 };
 
-// Sesiones de la secuencia didáctica: [título, DBA, EBC]. Cada sesión trabaja un DBA dentro de un EBC;
-// varias sesiones pueden compartir DBA, EBC o ambos. El número de sesión es su posición en la lista.
+// Sesiones de la secuencia didáctica: [título, DBA, Factor]. Cada sesión trabaja un DBA dentro de un Factor;
+// varias sesiones pueden compartir DBA, Factor o ambos. El número de sesión es su posición en la lista.
 const SE = [
 	["Ideas explícitas e implícitas en textos informativos", 1, 1],
 	["Inferir información en noticias y reportajes", 1, 1],
@@ -35,7 +35,7 @@ const SE = [
 	["Señales, símbolos e íconos en el entorno", 5, 3]
 ].map(([t, b, e], i) => ({ id: i + 1, t, b, e }));
 
-// Cada fila: [EBC, competencia, DBA, dificultad prevista, % acierto, discriminación, % errores en el distractor dominante, % omisión]
+// Cada fila: [Factor, competencia, DBA, dificultad prevista, % acierto, discriminación, % errores en el distractor dominante, % omisión]
 const Q = [
 	[1, 0, 1, 0, 87, .23, 75, 0], [1, 1, 1, 0, 73, .29, 63, 0], [3, 0, 5, 0, 90, .17, 67, 0], [2, 0, 4, 0, 83, .59, 60, 0],
 	[1, 1, 2, 1, 47, .57, 71, 7], [0, 0, 3, 0, 73, .55, 75, 0], [3, 2, 5, 1, 67, .49, 56, 3], [2, 1, 4, 1, 70, .10, 56, 0],

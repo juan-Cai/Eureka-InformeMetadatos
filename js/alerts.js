@@ -1,18 +1,18 @@
-// Resumen: una tarjeta por gráfica (DBA, EBC, competencias) con los elementos que necesitan
+// Resumen: una tarjeta por gráfica (DBA, Factor, competencias) con los elementos que necesitan
 // refuerzo, es decir, los que quedan por debajo de REF (utils.js), más una tarjeta de Sugerencias
 // con un plan de sesiones. Recibe las preguntas de toda la evaluación ya ajustadas al grupo o al
-// estudiante seleccionado; no depende del filtro de EBC.
+// estudiante seleccionado; no depende del filtro de Factor.
 
 // Plan de mejora: bloques de sesiones alternativas (el docente elige una por bloque) que cubren
-// todos los DBA y EBC a reforzar con la menor cantidad de bloques y sin repetir sesiones.
-//   1. Bloques de sesiones que comparten un DBA y un EBC a reforzar: cubren ambos a la vez. Se elige
-//      la combinación de parejas DBA–EBC que cubre más elementos (emparejamiento máximo, por fuerza
-//      bruta: son pocos DBA y EBC). Si hay empate, gana la más urgente (menor acierto sumado de sus
+// todos los DBA y Factor a reforzar con la menor cantidad de bloques y sin repetir sesiones.
+//   1. Bloques de sesiones que comparten un DBA y un Factor a reforzar: cubren ambos a la vez. Se elige
+//      la combinación de parejas DBA–Factor que cubre más elementos (emparejamiento máximo, por fuerza
+//      bruta: son pocos DBA y Factor). Si hay empate, gana la más urgente (menor acierto sumado de sus
 //      parejas: el acierto real de las preguntas de esa pareja en la evaluación o, si no hay, el promedio
-//      del DBA y el EBC) y luego la que deja más sesiones para elegir.
+//      del DBA y el Factor) y luego la que deja más sesiones para elegir.
 //   2. Por cada DBA aún sin cubrir, un bloque con sus sesiones libres.
-//   3. Por cada EBC aún sin cubrir, un bloque con sus sesiones libres.
-// qs: preguntas (grupo o estudiante); dbr/ebr: [{i, p}] de los DBA/EBC a reforzar.
+//   3. Por cada Factor aún sin cubrir, un bloque con sus sesiones libres.
+// qs: preguntas (grupo o estudiante); dbr/ebr: [{i, p}] de los DBA/Factor a reforzar.
 // Devuelve [{b, e, ss}] (b o e es null si el bloque cubre solo uno).
 function plan(qs, dbr, ebr) {
 	const pairs = [];
@@ -61,9 +61,9 @@ function resumen(qs) {
 
 	const RS = [
 		["DBA a reforzar", dbr, new Set(qs.map(q => q.b)).size, "DBA",
-			dbr.length ? `Se recomienda empezar por el DBA ${dbr[0].i}, el de menor acierto.` : "",
+			dbr.length ? `` : "",
 			x => `<small>${DB[x.i] || ""}</small>`],
-		["Estándares a reforzar", ebr, E.length, "EBC",
+		["Factores a reforzar", ebr, E.length, "Factor",
 			ebr.length ? `Conviene ${ebr.length > 1 ? "retomarlos" : "retomarlo"} en clase antes de avanzar a nuevos temas.` : "",
 			() => ""],
 		["Competencias a reforzar", cpr, C.length, "competencias",
@@ -82,10 +82,10 @@ function resumen(qs) {
 	// Sugerencias: el plan de mejora, un bloque por fila con sus sesiones alternativas.
 	const P = plan(qs, dbr, ebr);
 	const cnt = (n, s, p) => `${n > 1 ? `los ${n}` : "el"} ${n > 1 ? p : s}`;
-	const cov = [dbr.length && cnt(dbr.length, "DBA", "DBA"), ebr.length && cnt(ebr.length, "estándar", "estándares")].filter(Boolean).join(" y ");
+	const cov = [dbr.length && cnt(dbr.length, "DBA", "DBA"), ebr.length && cnt(ebr.length, "estándar", "Factores")].filter(Boolean).join(" y ");
 	const head = `<span class="n">${P.length}<small>${P.length == 1 ? "sesión" : "sesiones"}</small></span><span class="tx"><b>Sugerencias</b><p>${P.length
 		? `Plan de mejora: se recomienda trabajar una sesión de cada bloque para cubrir ${cov} a reforzar.`
-		: "No hay DBA ni estándares por reforzar, por lo que no se requieren sesiones de refuerzo."}</p></span>`;
+		: "No hay DBA ni Factores por reforzar, por lo que no se requieren sesiones de refuerzo."}</p></span>`;
 	const lbl = x => [x.b != null && "DBA " + x.b, x.e != null && E[x.e]].filter(Boolean).join(" y ");
 	const sug = P.length
 		? `<details class="a sg" style="--c:var(--ok)"><summary>${head}<i class="chev" aria-hidden="true"></i></summary><ol>${P.map(x =>
