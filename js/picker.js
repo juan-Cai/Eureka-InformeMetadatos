@@ -7,9 +7,7 @@ let pq = "", pa = 0;  // texto de búsqueda y opción activa
 
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 const ini = n => { const w = n.split(" "); return w[0][0] + w[w.length - 1][0]; };
-const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const order = () => [...AL].sort((a, b) => (po == "low" ? a.p - b.p : 0) || a.n.localeCompare(b.n, "es"));
-const GA = r(avg(AL.map(s => s.p)));
 
 // Opciones visibles; null representa "Todo el grupo" y solo aparece cuando no hay búsqueda.
 function opts() {
@@ -32,7 +30,7 @@ function plist() {
 	$("pl").innerHTML = o.length ? o.map((s, k) => {
 		const i = s ? s.i : -1;
 		const body = s
-			? `<span class="av">${ini(s.n)}</span><span class="nm">${hl(s.n)}<small>${s.k} de ${s.s.length} correctas</small></span><span class="pc${est(s.p) ? "" : " rf"}" title="${est(s.p) ? "" : "Necesita refuerzo"}"><s></s>${s.p}%</span>`
+			? `<span class="av">${esc(ini(s.n))}</span><span class="nm">${hl(s.n)}<small>${s.k} de ${s.t} correctas</small></span><span class="pc${est(s.p) ? "" : " rf"}" title="${est(s.p) ? "" : "Necesita refuerzo"}"><s></s>${s.p}%</span>`
 			: `<span class="av all">${ICONS.users}</span><span class="nm">Todo el grupo<small>${AL.length} estudiantes</small></span><span class="pc">${GA}%</span>`;
 		return `<li role="option" id="po${k}" data-i="${i}" aria-selected="${i == fa}" class="${k == pa ? "act" : ""}">${body}</li>`;
 	}).join("") : `<li class="empty">Ningún estudiante coincide con “${esc(pq.trim())}”.</li>`;
@@ -69,7 +67,7 @@ function psync() {
 	const s = AL[fa];
 	$("pi").value = s ? s.n : "";
 	$("pk").classList.toggle("sel", !!s);
-	$("pav").innerHTML = s ? ini(s.n) : ICONS.users;
+	$("pav").innerHTML = s ? esc(ini(s.n)) : ICONS.users;
 	$("px").hidden = !s;
 	const l = order(), k = l.findIndex(x => x.i == fa);
 	$("pv").disabled = k <= 0;

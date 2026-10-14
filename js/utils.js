@@ -2,10 +2,12 @@
 const $ = i => document.getElementById(i);
 const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : NaN;
 const r = Math.round;
+// Escapa texto de la base de datos antes de insertarlo con innerHTML.
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 // Estado de un Factor/DBA/competencia según su % de acierto: 0 = necesita refuerzo (menos de REF), 1 = por debajo de la meta, 2 = alcanza la meta.
-// Solo el estado 0 se muestra en pantalla (etiqueta "Reforzar").
-const META = 70, REF = 60;
+// Solo el estado 0 se muestra en pantalla. Los umbrales se reemplazan con los de la base de datos al cargar (api.js).
+let META = 70, REF = 60;
 const est = p => p < REF ? 0 : p < META ? 1 : 2;
 
 // Íconos de línea, en línea, para las insignias de los KPI.
