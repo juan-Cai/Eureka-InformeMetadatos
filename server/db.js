@@ -1,21 +1,21 @@
-// Base de datos simulada: data/db.json es un diccionario con una "tabla" (lista de registros) por clave.
-// Se vuelve a leer cuando el archivo cambia, así cualquier edición se ve al recargar la página.
-// Al leerla se revisa que las referencias entre tablas existan, para detectar datos mal cargados.
+// Bases de datos simuladas: data/<área>.json es un diccionario con una "tabla" (lista de registros) por clave.
+// Cada archivo se vuelve a leer cuando cambia, así cualquier edición se ve al recargar la página.
+// Al leerlo se revisa que las referencias entre tablas existan, para detectar datos mal cargados.
 
 const fs = require("fs"), path = require("path");
-const { validar } = require("../js/reporte");
+const { validar, ErrorHttp } = require("../js/reporte");
 
-const FILE = path.join(__dirname, "..", "data", "db.json");
+const DIR = path.join(__dirname, "..", "data");
+const AREAS = ["lenguaje", "sociales", "naturales", "matematicas"];  // la primera es la de por defecto
 
-let cache = null, mtime = 0;
+const cache = {};
 
-function leer() {
-	const m = fs.statSync(FILE).mtimeMs;
-	if (!cache || m != mtime) {
-		cache = validar(JSON.parse(fs.readFileSync(FILE, "utf8")));
-		mtime = m;
-	}
-	return cache;
+function leer(area) {
+	const a = area == null ? AREAS[0] : area;
+	if (!AREAS.includes(a)) throw new ErrorHttp(404, `Área no encontrada (opciones: ${AREAS.join(", ")})`);
+	const file = path.join(DIR, a + ".json"), m = fs.statSync(file).mtimeMs;
+	if (!cache[a] || cache[a].mtime != m) cache[a] = { db: validar(JSON.parse(fs.readFileSync(file, "utf8"))), mtime: m };
+	return cache[a].db;
 }
 
-module.exports = { leer, FILE };
+module.exports = { leer, AREAS, DIR };

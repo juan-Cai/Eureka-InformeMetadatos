@@ -1,5 +1,5 @@
 {
-  "configuracion": {"meta":70,"refuerzo":60},
+  "configuracion": {"meta":70,"refuerzo":60,"area":"Lenguaje","etiqueta":{"singular":"Factor","plural":"Factores","femenino":false}},
   "grupos": [
     {"id":1,"nombre":"Grupo 5A"}
   ],

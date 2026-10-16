@@ -20,6 +20,8 @@ const Reporte = (() => {
 	function validar(db) {
 		const c = db.configuracion;
 		if (!c || typeof c.meta != "number" || typeof c.refuerzo != "number") throw new Error("configuracion debe tener meta y refuerzo numéricos");
+		const e = c.etiqueta;
+		if (e != null && (typeof e.singular != "string" || typeof e.plural != "string")) throw new Error("configuracion.etiqueta debe tener singular y plural");
 		TABLAS.forEach(t => { if (!Array.isArray(db[t])) throw new Error(`falta la tabla "${t}"`); });
 		const ids = t => new Set(db[t].map(x => x.id));
 		const I = Object.fromEntries(TABLAS.filter(t => t != "respuestas").map(t => [t, ids(t)]));
@@ -121,11 +123,17 @@ const Reporte = (() => {
 		return P.map(x => ({ dba: x.b, factor: x.e, sesiones: x.ss.map(s => ({ id: s.id, titulo: s.titulo })) }));
 	}
 
-	// Datos fijos de la evaluación: nombres, Factores (para los filtros) y umbrales.
+	// Cómo se llaman los Factores en el área (Lenguaje: Factor; Sociales: Relación; Naturales: Entorno;
+	// Matemáticas: Pensamiento). Si la base de datos no lo dice, se usa el de Lenguaje.
+	const ETIQUETA = { singular: "Factor", plural: "Factores", femenino: false };
+
+	// Datos fijos de la evaluación: área, nombres, Factores (para los filtros) y umbrales.
 	function catalogo(db, evId) {
 		const ev = evaluacion(db, evId);
 		const g = db.grupos.find(x => x.id == ev.grupo);
 		return {
+			area: db.configuracion.area || null,
+			etiqueta: { ...ETIQUETA, ...db.configuracion.etiqueta },
 			evaluacion: { id: ev.id, nombre: ev.nombre, grupo: g.nombre },
 			umbrales: { meta: db.configuracion.meta, refuerzo: db.configuracion.refuerzo },
 			factores: db.factores,

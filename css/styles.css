@@ -7,6 +7,14 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Poppins,system
 small{color:var(--mute)}
 [hidden]{display:none!important}
 
+/* Pestañas de área */
+.arb{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:-12px 0 4px}
+.areas{display:flex;gap:4px;flex-wrap:wrap}
+.arn{font-size:12px;font-style:italic;padding:6px 0}
+.areas a{padding:8px 14px;margin-bottom:-1px;border-bottom:2px solid transparent;color:var(--mute);font-weight:500;text-decoration:none;border-radius:8px 8px 0 0;transition:color .15s,background .15s}
+.areas a:hover{color:var(--ink);background:var(--soft)}.areas a.on{color:var(--accent);border-bottom-color:var(--accent)}
+.areas a:focus-visible{outline:2px solid var(--pink);outline-offset:-2px}
+
 /* Filtro */
 .bar{position:relative;z-index:10;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px;box-shadow:0 2px 10px #0000000a}
 .pk>small,.fe>small{color:var(--mute);font-weight:600;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin:0 4px 0 10px}
@@ -88,7 +96,6 @@ small{color:var(--mute)}
 .stu .row>b{width:66px}
 .tr{flex:1;height:16px;background:var(--soft);border-radius:99px;position:relative;overflow:hidden;display:flex}
 .tr i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ffb35c,var(--accent))}
-.tr u{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.55}
 
 /* Tabla de DBA */
 .sc{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:12px}
